@@ -13,14 +13,14 @@ jobs:
         with:
           node-version: '20.x'
       - name: Bump Package Version
-        run: "sed -i 's/\"version\": \"[0-9]*.[0-9]*.[0-9]*\"/\"version\": \"${{ github.event.release.tag_name }}\"/p' package.json"
+        run: "sed -i 's/\"version\": \"[0-9]*.[0-9]*.[0-9]*\"/\"version\": \"${{ github.event.release.tag_name }}\"/' package.json"
       - name: Update package.json
         run: |
           git config user.name "Version Bump Bot"
           git config user.email "<>"
           git add package.json 
           git commit -m 'bump package version ${{ github.event.release.tag_name }}'
-          git push -u origin HEAD
+          git push
       - name: Build Package
         run: |
           npm ci
