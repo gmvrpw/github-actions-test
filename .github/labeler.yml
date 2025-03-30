@@ -4,7 +4,7 @@ feature:
       - any-glob-to-any-file:
         - 'src/**/*'
     - head-branch:
-      - 'feature/*'
+      - '^feature/.*'
 
 fix:
   - all:
@@ -12,7 +12,7 @@ fix:
       - any-glob-to-any-file:
         - 'src/**/*'
     - head-branch:
-      - 'fix/*'
+      - '^fix/.*'
 
 test:
   - any:
@@ -20,7 +20,7 @@ test:
       - any-glob-to-any-file:
         - 'test/**/*'
     - head-branch:
-      - 'test/*'
+      - '^test/.*'
 
 docs:
   - any:
@@ -28,7 +28,7 @@ docs:
       - any-glob-to-any-file:
         - 'docs/**/*'
     - head-branch:
-      - 'docs/*'
+      - '^docs/.*'
 
 ci:
   - any:
@@ -36,7 +36,7 @@ ci:
       - any-glob-to-any-file:
         - '.github/**/*'
     - head-branch:
-      - 'ci/*'
+      - '^ci/.*'
 
 config:
   - any:
@@ -44,4 +44,4 @@ config:
       - any-glob-to-any-file:
         - '*config*'
     - head-branch:
-      - 'config/*'
+      - '^config/.*'
