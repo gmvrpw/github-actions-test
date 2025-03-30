@@ -22,7 +22,7 @@ jobs:
           git config user.name "bump-bot"
           git config user.email "bump-bot@users.noreply.github.com"
           git add package.json 
-          git commit -m 'bump package version ${{ github.event.release.tag_name }}'
+          git commit -m 'bump version to ${{ github.event.release.tag_name }}'
           git push
       - name: Build & Pack Package
         run: |
