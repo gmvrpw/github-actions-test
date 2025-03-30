@@ -24,10 +24,11 @@ jobs:
           git add package.json 
           git commit -m 'bump package version ${{ github.event.release.tag_name }}'
           git push
-      - name: Build Package
+      - name: Build & Pack Package
         run: |
           npm ci
           npm run build
+          npm pack
       - uses: actions/upload-artifact@v4
         with:
           name: vanilla-tabs-package 
