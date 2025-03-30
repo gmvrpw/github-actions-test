@@ -1,0 +1,47 @@
+feature:
+  - all:
+    - changed-files: 
+      - any-glob-to-any-file:
+        - 'src/**/*'
+    - base-branch:
+      - 'feature/*'
+
+fix:
+  - all:
+    - changed-files: 
+      - any-glob-to-any-file:
+        - 'src/**/*'
+    - base-branch:
+      - 'fix/*'
+
+test:
+  - any:
+    - changed-files: 
+      - any-glob-to-any-file:
+        - 'test/**/*'
+    - base-branch:
+      - 'test/*'
+
+docs:
+  - any:
+    - changed-files: 
+      - any-glob-to-any-file:
+        - 'docs/**/*'
+    - base-branch:
+      - 'docs/*'
+
+ci:
+  - any:
+    - changed-files: 
+      - any-glob-to-any-file:
+        - '.github/**/*'
+    - base-branch:
+      - 'ci/*'
+
+config:
+  - any:
+    - changed-files: 
+      - any-glob-to-any-file:
+        - '*config*'
+    - base-branch:
+      - 'config/*'
