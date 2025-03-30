@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <style>
+      tab-tabs {
+        display: flex;
+        flex-direction: column;
+
+        &:has(tab-list[orientation='vertical']) {
+          flex-direction: row;
+        }
+      }
+
+      tab-list {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+
+        &[orientation='vertical'] {
+          width: 1em;
+          flex-direction: column;
+
+          & tab-item {
+            writing-mode: vertical-rl;
+            transform: rotate(-180deg);
+          }
+        }
+      }
+
+      tab-item {
+        cursor: default;
+
+        &[open] {
+          font-weight: bold;
+        }
+      }
+
+      tab-panel {
+        display: flex;
+
+        &:not(:state(open)) {
+          content-visibility: hidden;
+        }
+      }
+    </style>
+    <script type="module">
+      import {
+        HTMLTabElement,
+        HTMLTabListElement,
+        HTMLTabPanelElement,
+        HTMLTabsElement
+      } from '/src/index.ts';
+      customElements.define('tab-tabs', HTMLTabsElement);
+      customElements.define('tab-list', HTMLTabListElement);
+      customElements.define('tab-item', HTMLTabElement);
+      customElements.define('tab-panel', HTMLTabPanelElement);
+    </script>
+    <title>Tabs</title>
+  </head>
+  <body>
+    <tab-tabs>
+      <tab-list>
+        <tab-item open>Tab1</tab-item>
+        <tab-item>Tab2</tab-item>
+        <tab-item>Tab3</tab-item>
+        <tab-item>Tab4</tab-item>
+      </tab-list>
+      <tab-panel>Tab1</tab-panel>
+      <tab-panel>Tab2</tab-panel>
+      <tab-panel>Tab3</tab-panel>
+      <tab-panel>Tab4</tab-panel>
+    </tab-tabs>
+  </body>
+</html>
