@@ -20,7 +20,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs.js",
-      "import": "./dist/index.es.js",
+      "import": "./dist/index.es.js"
     },
     "./dist/*": "./dist/*"
   },
