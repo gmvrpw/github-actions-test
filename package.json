@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@gmvrpw/math",
-  "version": "0.0.0",
+  "version": "1.2.0",
   "description": "Better math for better humans.",
   "keywords": [
     "math",
