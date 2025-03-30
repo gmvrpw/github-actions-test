@@ -3,7 +3,7 @@ feature:
     - changed-files: 
       - any-glob-to-any-file:
         - 'src/**/*'
-    - base-branch:
+    - head-branch:
       - 'feature/*'
 
 fix:
@@ -11,7 +11,7 @@ fix:
     - changed-files: 
       - any-glob-to-any-file:
         - 'src/**/*'
-    - base-branch:
+    - head-branch:
       - 'fix/*'
 
 test:
@@ -19,7 +19,7 @@ test:
     - changed-files: 
       - any-glob-to-any-file:
         - 'test/**/*'
-    - base-branch:
+    - head-branch:
       - 'test/*'
 
 docs:
@@ -27,7 +27,7 @@ docs:
     - changed-files: 
       - any-glob-to-any-file:
         - 'docs/**/*'
-    - base-branch:
+    - head-branch:
       - 'docs/*'
 
 ci:
@@ -35,7 +35,7 @@ ci:
     - changed-files: 
       - any-glob-to-any-file:
         - '.github/**/*'
-    - base-branch:
+    - head-branch:
       - 'ci/*'
 
 config:
@@ -43,5 +43,5 @@ config:
     - changed-files: 
       - any-glob-to-any-file:
         - '*config*'
-    - base-branch:
+    - head-branch:
       - 'config/*'
