@@ -23,7 +23,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            if (! "${{ inputs.base_tag }}".match(/v[0-9]+\.[0-9]+\.[0-9]+/)) {
+            if (!"${{ inputs.base_tag }}".match(/v[0-9]+\.[0-9]+\.[0-9]+/)) {
               core.setFailed('Invalid format of release tag');
               return "";
             }
