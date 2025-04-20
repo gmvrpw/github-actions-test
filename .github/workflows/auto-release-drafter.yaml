@@ -17,8 +17,8 @@ jobs:
       contents: write
     steps:
       - uses: gmvrpw/semver-bumper-action@v1.0.0
+        id: version_bumper
         with:
-          id: version_bumper 
           version: ${{ inputs.current_tag }}
           major: breaking
           minor: feature
