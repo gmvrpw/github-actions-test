@@ -2,8 +2,8 @@ name: "Auto Release Drafter"
 on:
   workflow_dispatch:
     inputs:
-      current_tag:
-        description: 'Current release tag'
+      base_tag:
+        description: 'Base release tag'
         required: true
         type: string
 jobs:
@@ -12,26 +12,32 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: gmvrpw/semver-bumper-action@v2.0.0
-        id: version_bumper
+      - name: "Bump Version"
+        id: semver_extractor
+        uses: actions/github-script@v7
         with:
-          version: ${{ inputs.current_tag }}
-          major: breaking
-          minor: feature
-          patch: fix
-          base_ref: ${{ inputs.current_tag }}
-          head_ref: ${{ github.ref }}
+          script: |
+            if ("${{ inputs.base_tag }}".match(/v[0-9]+\.[0-9]+\.[0-9]+/)) {
+              core.setFailed('Invalid format of release tag');
+              return "";
+            }
+            return "${{ inputs.base_tag }}".substring(1)
+          result-encoding: string
+      - id: version_bumper
+        uses: gmvrpw/semver-bumper-action@v3.0.0
+        with:
+          labels: breaking.feature.fix
+          basehead: ${{ inputs.base_tag }}...${{ github.ref }}
+          version: ${{ steps.semver_extractor.outputs.result }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref }}
-          fetch-depth: 0
+          
       - name: 'Create Release Draft'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create ${{ steps.version_bumper.outputs.bumped_version }} \
+          gh repo set-default ${{ github.repository }}
+          gh release create v${{ steps.version_bumper.outputs.bumped_version }} \
             --draft \
             --generate-notes \
-            --notes-start-tag ${{ inputs.current_tag }} \
+            --notes-start-tag ${{ inputs.base_tag }} \
             --target ${{ github.ref }}
