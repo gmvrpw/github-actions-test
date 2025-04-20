@@ -16,15 +16,15 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: gmvrpw/semver-bumper-action@v1.0.0
+      - uses: gmvrpw/semver-bumper-action@v2.0.0
         id: version_bumper
         with:
           version: ${{ inputs.current_tag }}
           major: breaking
           minor: feature
           patch: fix
-          baseRef: ${{ inputs.current_tag }}
-          headRef: 'ref/heads/${{ inputs.branch }}'
+          base_ref: ${{ inputs.current_tag }}
+          head_ref: 'ref/heads/${{ inputs.branch }}'
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Create Release Draft'
         run: |
