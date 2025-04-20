@@ -8,30 +8,51 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
         with:
-          ref: master
+          ref: ${{ github.ref }}
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+          
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+
+      - name: Extract semantic version from tag
+        id: semver_extractor
+        uses: actions/github-script@v7
+        with:
+          script: |
+            if (! "${{ github.event.release.tag_name }}".match(/v[0-9]+\.[0-9]+\.[0-9]+/)) {
+              core.setFailed('Invalid format of release tag');
+              return "";
+            }
+            return "${{ github.event.release.tag_name }}".substring(1)
+          result-encoding: string
+          
       - name: Bump Package Version
-        run: "sed -i 's/\"version\": \"[0-9]*.[0-9]*.[0-9]*\"/\"version\": \"${{ github.event.release.tag_name }}\"/' package.json"
-      - name: Update package.json
+        run: sed -i 's/\("version":\) "[0-9]*.[0-9]*.[0-9]*"/\1 \"${{ steps.semver_extractor.outputs.result }}\"/' package.json
+        
+      - name: Push package.json
         run: |
           git config user.name "bump-bot"
           git config user.email "bump-bot@users.noreply.github.com"
           git add package.json 
           git commit -m 'bump version to ${{ github.event.release.tag_name }}'
-          git push
+          git tag -f ${{ github.event.release.tag_name }}
+          git push -f
+        
       - name: Build & Pack Package
         run: |
           npm ci
           npm run build
           npm pack
-      - uses: actions/upload-artifact@v4
+          
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: vanilla-tabs-package 
+          name: math
           path: ./gmvrpw-math-*
           overwrite: true
 
@@ -46,10 +67,12 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: 'https://npm.pkg.github.com'
+          
       - name: Download Built Package
         uses: actions/download-artifact@v4
         with:
-          name: vanilla-tabs-package 
+          name: math
+          
       - name: Publish Package
         run: npm publish gmvrpw-math-* --access public
         env:
