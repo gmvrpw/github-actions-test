@@ -41,7 +41,7 @@ jobs:
           git add package.json 
           git commit -m 'bump version to ${{ github.event.release.tag_name }}'
           git tag -f ${{ github.event.release.tag_name }}
-          git push -f
+          git push --tags -f
         
       - name: Build & Pack Package
         run: |
