@@ -1,0 +1,35 @@
+name: "Auto Release Drafter"
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'The branch for which the release is created'
+        required: true
+        type: string
+      current_tag:
+        description: 'Current release tag'
+        required: true
+        type: string
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: gmvrpw/semver-bumper-action@v1.0.0
+        with:
+          id: version_bumper 
+          version: ${{ inputs.current_tag }}
+          major: breaking
+          minor: feature
+          patch: fix
+          baseRef: ${{ inputs.current_tag }}
+          headRef: 'ref/heads/master'
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Create Release Draft'
+        run: |
+          gh release create ${{ steps.version_bumper.outputs.bumped_version }} \
+            --draft \
+            --generate-notes \
+            --notes-start-tag ${{ inputs.current_tag }} \
+            --fail-on-no-commits
