@@ -35,4 +35,3 @@ jobs:
             --generate-notes \
             --notes-start-tag ${{ inputs.current_tag }} \
             --target ${{ github.ref }}
-            --fail-on-no-commits
