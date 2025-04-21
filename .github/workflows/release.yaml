@@ -36,10 +36,10 @@ jobs:
         
       - name: Push package.json
         run: |
-          git config user.name "bump-bot"
-          git config user.email "bump-bot@users.noreply.github.com"
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
           git add package.json 
-          git commit -m 'bump version to ${{ github.event.release.tag_name }}'
+          git commit -m 'bump version to ${{ steps.semver_extractor.outputs.result }}'
           git tag -f ${{ github.event.release.tag_name }}
           git push --tags -f
         
@@ -62,16 +62,16 @@ jobs:
     permissions:
       packages: write
     steps:
+      - name: Download Built Package
+        uses: actions/download-artifact@v4
+        with:
+          name: math
+          
       - name: Setup NPM Registry (GitHub Packages)
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           registry-url: 'https://npm.pkg.github.com'
-          
-      - name: Download Built Package
-        uses: actions/download-artifact@v4
-        with:
-          name: math
           
       - name: Publish Package
         run: npm publish gmvrpw-math-* --access public
