@@ -41,7 +41,7 @@ jobs:
           git add package.json 
           git commit -m 'bump version to ${{ steps.semver_extractor.outputs.result }}'
           git tag -f ${{ github.event.release.tag_name }}
-          git push --tags -f
+          git push --tags -f origin master
         
       - name: Build & Pack Package
         run: |
