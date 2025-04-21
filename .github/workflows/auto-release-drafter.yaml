@@ -32,12 +32,11 @@ jobs:
           
       - name: "Bump Version"
         id: version_bumper
-        uses: gmvrpw/semver-bumper-action@v3.0.0
+        uses: t15i/semver-bumper-action@v1
         with:
-          labels: breaking.feature.fix
           basehead: ${{ inputs.base_tag }}...${{ github.ref }}
+          labels: breaking.feature.fix
           version: ${{ steps.semver_extractor.outputs.result }}
-          token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 'Create Release Draft'
         env:
