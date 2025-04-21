@@ -32,7 +32,7 @@ jobs:
           
       - name: "Bump Version"
         id: version_bumper
-        uses: t15i/semver-bumper-action@v1
+        uses: t15i/semver-bumper-action@v1.0.0
         with:
           basehead: ${{ inputs.base_tag }}...${{ github.ref }}
           labels: breaking.feature.fix
